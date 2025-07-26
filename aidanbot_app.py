@@ -19,12 +19,6 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from chromadb.config import Settings  # Add this import at the top
-
-client_settings = Settings(
-    chroma_db_impl="duckdb+parquet",
-    persist_directory=None  # In-memory only
-)
 
 vectorstore = Chroma.from_documents(
     split_docs,
@@ -69,21 +63,27 @@ st.markdown(
 
 # === 4.- Load and Configure LangChain Components ===
 
-@st.cache_resource  # Caches the result so it's not reloaded on every user input
+@st.cache_resource
 def load_chain():
-    # Load our support Q&A document
+    # Load Q&A document
     loader = TextLoader("support_qa.txt", encoding="utf-8")
     docs = loader.load()
 
-    # Split into overlapping 512-token chunks to preserve context
+    # Chunk it into 512-token slices
     splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=50)
     split_docs = splitter.split_documents(docs)
 
-    # Convert text into vectors using HuggingFace model
+    # Embeddings
     embedding_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
-    vectorstore = Chroma.from_documents(split_docs, embedding=embedding_model)
 
-    # Define AidanBot's personality and tone with our cute prompt
+    # ✅ Create in-memory vectorstore (no Settings needed)
+    vectorstore = Chroma.from_documents(
+        split_docs,
+        embedding=embedding_model,
+        collection_name="aidanbot"
+    )
+
+    # Cute prompt
     cute_prompt = PromptTemplate.from_template(
         """You are Lady Gurumi’s adorable support assistant, known as AidanBot.
 Always answer in a cute, witty, and nerdy tone, using emojis or cozy language if appropriate.
@@ -107,7 +107,6 @@ Answer:"""
         retriever=vectorstore.as_retriever(score_threshold=0.6),
         chain_type_kwargs={"prompt": cute_prompt, "document_variable_name": "context"}
     )
-
 qa_chain = load_chain()
 
 
