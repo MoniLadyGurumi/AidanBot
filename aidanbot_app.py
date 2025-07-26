@@ -57,6 +57,8 @@ st.markdown(
 
 # === 4.- Load and Configure LangChain Components ===
 
+from chromadb.config import Settings
+
 @st.cache_resource
 def load_chain():
     # Load the Q&A document
@@ -70,6 +72,12 @@ def load_chain():
     # Embed the chunks using MiniLM model
     embedding_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 
+    # 
+    client_settings = Settings(
+        chroma_db_impl="duckdb+parquet",
+        persist_directory=None  # In-memory only
+    )
+    
     # Creates in-memory vector store using ChromaDB
     vectorstore = Chroma.from_documents(
     split_docs,
