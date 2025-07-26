@@ -15,7 +15,7 @@ from streamlit.components.v1 import html  # Allows inserting raw HTML + JavaScri
 from langchain.chains import RetrievalQAWithSourcesChain
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -57,8 +57,6 @@ st.markdown(
 
 # === 4.- Load and Configure LangChain Components ===
 
-from chromadb.config import Settings
-
 @st.cache_resource
 def load_chain():
     # Load the Q&A document
@@ -72,25 +70,12 @@ def load_chain():
     # Embed the chunks using MiniLM model
     embedding_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 
-    # 
-    client_settings = Settings(
-        chroma_db_impl="duckdb+parquet",
-    )
-    
-    # Creates in-memory vector store using ChromaDB
-    vectorstore = Chroma.from_documents(
+    # Creates in-memory vector store using FAISS
+    vectorstore = FAISS.from_documents(
     split_docs,
     embedding=embedding_model,
     client_settings=client_settings
 )
-
-    
-    # Create the in-memory vector store
-    vectorstore = Chroma.from_documents(
-        split_docs,
-        embedding=embedding_model,
-        collection_name="aidanbot"  # Optional, but helps keep it organized
-    )
 
     # Define AidanBot’s tone
     cute_prompt = PromptTemplate.from_template(
