@@ -20,12 +20,6 @@ from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-vectorstore = Chroma.from_documents(
-    split_docs,
-    embedding=embedding_model,
-    client_settings=client_settings
-)
-
 # === 2-. Streamlit App Configuration ===
 
 st.set_page_config(page_title="Lady Gurumi's AidanBot", page_icon="🧸") # Browser title
@@ -65,33 +59,40 @@ st.markdown(
 
 @st.cache_resource
 def load_chain():
-    # Load Q&A document
+    # Load the Q&A document
     loader = TextLoader("support_qa.txt", encoding="utf-8")
     docs = loader.load()
 
-    # Chunk it into 512-token slices
+    # Split into 512-token chunks with 50-token overlap
     splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=50)
     split_docs = splitter.split_documents(docs)
 
-    # Embeddings
+    # Embed the chunks using MiniLM model
     embedding_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 
-    # ✅ Create in-memory vectorstore (no Settings needed)
+    # Creates in-memory vector store using ChromaDB
+    vectorstore = Chroma.from_documents(
+    split_docs,
+    embedding=embedding_model,
+    client_settings=client_settings
+)
+
+    
+    # Create the in-memory vector store
     vectorstore = Chroma.from_documents(
         split_docs,
         embedding=embedding_model,
-        collection_name="aidanbot"
+        collection_name="aidanbot"  # Optional, but helps keep it organized
     )
 
-    # Cute prompt
+    # Define AidanBot’s tone
     cute_prompt = PromptTemplate.from_template(
         """You are Lady Gurumi’s adorable support assistant, known as AidanBot.
 Always answer in a cute, witty, and nerdy tone, using emojis or cozy language if appropriate.
 Answer this customer question using only the provided context.
 If you're not sure, say something funny and kind.
 Only mention Moni the Plushie Wizard if the question cannot be answered from the context or if it's something personal, subjective, or requires a human decision.
-Remember that Moni is a woman and everytime you talk about what she does or how to contact her you have to use third person in grammar.
-
+Remember that Moni is a woman and every time you talk about what she does or how to contact her you have to use third person in grammar.
 Context:
 {context}
 
@@ -101,7 +102,7 @@ Question:
 Answer:"""
     )
 
-    # Link it all into a Retrieval-QA chain
+    # Create the LangChain RetrievalQA system
     return RetrievalQAWithSourcesChain.from_chain_type(
         llm=ChatOpenAI(model="gpt-3.5-turbo", temperature=0.4),
         retriever=vectorstore.as_retriever(score_threshold=0.6),
