@@ -19,6 +19,18 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from chromadb.config import Settings  # Add this import at the top
+
+client_settings = Settings(
+    chroma_db_impl="duckdb+parquet",
+    persist_directory=None  # In-memory only
+)
+
+vectorstore = Chroma.from_documents(
+    split_docs,
+    embedding=embedding_model,
+    client_settings=client_settings
+)
 
 # === 2-. Streamlit App Configuration ===
 
