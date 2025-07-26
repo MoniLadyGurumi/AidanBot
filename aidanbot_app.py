@@ -75,7 +75,6 @@ def load_chain():
     # 
     client_settings = Settings(
         chroma_db_impl="duckdb+parquet",
-        persist_directory=None  # In-memory only
     )
     
     # Creates in-memory vector store using ChromaDB
