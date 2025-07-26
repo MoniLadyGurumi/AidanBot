@@ -7,6 +7,7 @@ Please, be kind, I am learning 💜
 This Streamlit app answers all your frequently asked questions about <a href="https://www.instagram.com/lady__gurumi">Lady Gurumi</a>’s handmade amigurumi plushies — including returns, shipping, materials, and the emotional state of Batman.
 
 
+
 ## ✨ Features
 
 - 💬 Scrollable chat interface that keeps your cozy convo in view
@@ -16,12 +17,14 @@ This Streamlit app answers all your frequently asked questions about <a href="ht
 - 📦 Local dev server OR deployable on Streamlit Cloud
 
 
+
 ## 📁 Project Structure
 
 ├── aidanbot_app.py # Main Streamlit app
 ├── support_qa.txt # AidanBot's knowledge base
 ├── lady_gurumi_banner.png # Pastel banner illustration
 ├── requirements.txt # App dependencies
+
 
 
 ## 🚀 Running Locally
@@ -34,6 +37,6 @@ This Streamlit app answers all your frequently asked questions about <a href="ht
 ```bash
 streamlit run aidanbot_app.py
 
-Made with 💜 by Moni, Archie, La Purri, and Aidan the overworked AI.
+
 
 Made with 💜 by Moni, Archie, La Purri, and Aidan the overworked AI.
