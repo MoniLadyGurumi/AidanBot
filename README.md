@@ -1,7 +1,7 @@
 # 🧸 Lady Gurumi's AidanBot
 
 Welcome to **Lady Gurumi’s AidanBot** — a snuggly support assistant powered by GPT-3.5 and infused with plushie wisdom, yarn-based wit, and cat fur (optional, but inevitable).
-I created this repo to upload my MIT GenAI Course Assignment 3.1 - "Building a Sales And Support Agent with LangChain".
+I created this repo to upload my <em>MIT GenAI Course Assignment 3.1 - "Building a Sales And Support Agent with LangChain"</em>.
 Please, be kind, I am learning 💜
 
 This Streamlit app answers all your frequently asked questions about <a href="https://www.instagram.com/lady__gurumi">Lady Gurumi</a>’s handmade amigurumi plushies — including returns, shipping, materials, and the emotional state of Batman.
