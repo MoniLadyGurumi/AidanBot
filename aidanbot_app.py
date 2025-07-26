@@ -74,7 +74,6 @@ def load_chain():
     vectorstore = FAISS.from_documents(
     split_docs,
     embedding=embedding_model,
-    client_settings=client_settings
 )
 
     # Define AidanBot’s tone
