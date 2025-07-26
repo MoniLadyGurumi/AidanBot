@@ -38,7 +38,7 @@ This Streamlit app answers all your frequently asked questions about <a href="ht
 4. Add your `.env` file with this line: OPENAI_API_KEY=your-api-key-here
 5. Run: streamlit run aidanbot_app.py
 
-## 🧭 System Design Steps (Assignment)
+## 🧭 System Design Steps
 
 To build a system capable of handling sales-related inquiries and customer support for a boutique business, I followed this structured approach:
 
@@ -87,8 +87,12 @@ User (web browser)
 │                     ↳ MiniLM Embeddings
 │                     ↳ support_qa.txt
 └──────────────────────────┘
+```
 
+## 🪪 License
 
+This project is licensed under the MIT License, allowing others to use, modify, and share the code with attribution.
 
+## 💌 Contact
 
-Made with 💜 by Moni, Archie, La Purri, and Aidan the overworked AI.
+Moni (<a href="https://www.instagram.com/lady__gurumi">Lady Gurumi</a> herself 🧶)
