@@ -27,7 +27,7 @@ This Streamlit app answers all your frequently asked questions about <a href="ht
 -  LLM --> OpenAI GPT-3.5-Turbo
 -  RAG --> LangChain’s `RetrievalQAWithSourcesChain`
 -  Embedding --> `SentenceTransformerEmbeddings` (MiniLM)
--  Vector DB --> Chroma
+-  Vector DB --> FAISS
 -  Deployment-ready --> GitHub + Streamlit Cloud
 
 ## 🚀 Running Locally
