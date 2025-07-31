@@ -55,7 +55,7 @@ To build a system capable of handling sales-related inquiries and customer suppo
 - Used LangChain’s `TextLoader` to ingest the text
 - Split documents into overlapping chunks with `RecursiveCharacterTextSplitter`
 - Embedded chunks with `MiniLM` via `SentenceTransformerEmbeddings`
-- Stored them in `Chroma` vector store
+- Stored them in `FAISS` vector store
 
 ### 4. Define Prompt Persona
 - Used `PromptTemplate` to shape AidanBot's tone and behavior
@@ -83,7 +83,7 @@ User (web browser)
 │ PromptTemplate (AidanBot)│
 │    ↕                    ↕
 │ ChatOpenAI         Vector Retriever
-│                     ↳ Chroma DB
+│                     ↳ FAISS DB
 │                     ↳ MiniLM Embeddings
 │                     ↳ support_qa.txt
 └──────────────────────────┘
